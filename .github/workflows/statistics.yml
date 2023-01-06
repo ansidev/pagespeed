@@ -1,29 +1,36 @@
 name: Statistics
 on:
   schedule:
-    - cron: '0 6 1 * *'
+    - cron: "0 6 1 * *"
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v3
         with:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.PAT }}
-      - uses: pnpm/action-setup@v2.2.4
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v2
         with:
-          version: 7.18.0
-      - name: Use Node.js 18
-        uses: actions/setup-node@v2
+          version: 7.22.0
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: 'pnpm'
+          cache: "pnpm"
+
       - name: Install dependencies
         run: pnpm install
+
       - name: Collect statistics
         run: pnpm collect-stats
+
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Generate monthly statistics
