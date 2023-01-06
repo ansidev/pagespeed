@@ -1,16 +1,20 @@
 ---
-import byteSize from 'byte-size';
+import byteSize from 'byte-size'
 
 export interface Props {
-  size: number;
+  size: number
 }
 
-const { size } = Astro.props as Props;
-const { unit, value } = byteSize(size, { units: 'iec', precision: 0 });
+const { size } = Astro.props as Props
+const { unit, value } = byteSize(size, { units: 'iec', precision: 0 })
 ---
 
 <span class="filesize">
-  {value}<span class="filesize-label-sm">{unit.slice(0, 1)}</span><span class="filesize-label-lg"> {unit}</span>
+  {value}
+  <span class="filesize-label-sm">{unit.slice(0, 1)}</span>
+  <span class="filesize-label-lg">
+    {unit}
+  </span>
 </span>
 
 <style>
@@ -28,8 +32,8 @@ const { unit, value } = byteSize(size, { units: 'iec', precision: 0 });
     }
   }
 
-  :global([data-numeric-value="0"]) .filesize-label-sm,
-  :global([data-numeric-value="0"]) .filesize-label-lg {
+  :global([data-numeric-value='0']) .filesize-label-sm,
+  :global([data-numeric-value='0']) .filesize-label-lg {
     display: none;
   }
 </style>
