@@ -100,5 +100,5 @@ function sortCumulativeScore(
 /** Get all results data, grouped and sorted. */
 export const loadResults = async () =>
   sortCumulativeScore(
-    groupSites(await import.meta.globEager('../data/results/**/*.json'))
+    groupSites(await import.meta.glob('../data/results/**/*.json', { eager: true }))
   )
