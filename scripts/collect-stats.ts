@@ -1,14 +1,17 @@
-// @ts-check
+import { promises as fs } from 'fs'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import PerfLeaderboard from 'performance-leaderboard'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import shortHash from 'short-hash'
 
-const fs = require('fs').promises
-const shortHash = require('short-hash')
-const PerfLeaderboard = require('performance-leaderboard')
-const sites = require('../data/sites')
+import sites from '../data/sites'
 
 const NUMBER_OF_RUNS = 3
 const FREQUENCY = 60 // in minutes
 
-const prettyTime = (seconds) => {
+const prettyTime = (seconds: number) => {
   // Based on https://johnresig.com/blog/javascript-pretty-date/
   const days = Math.floor(seconds / (60 * 60 * 24))
 
@@ -37,7 +40,7 @@ const prettyTime = (seconds) => {
     lastRuns = {}
   }
 
-  for (let [key, groupOrGroupGetter] of Object.entries(sites)) {
+  for (const [key, groupOrGroupGetter] of Object.entries(sites)) {
     const group =
       typeof groupOrGroupGetter === 'function'
         ? await groupOrGroupGetter()
@@ -69,6 +72,8 @@ const prettyTime = (seconds) => {
       }
     }
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const runCount = group.options?.runs || NUMBER_OF_RUNS
 
     const results = await PerfLeaderboard(group.urls, runCount, {
@@ -79,6 +84,8 @@ const prettyTime = (seconds) => {
     const promises = []
     for (const result of results) {
       const id = shortHash(result.url)
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       const isIsolated = group.options && group.options.isolated
       const dir = `${dataDir}results/${isIsolated ? `${key}/` : ''}${id}/`
 

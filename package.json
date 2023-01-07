@@ -11,7 +11,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "collect-stats": "node scripts/collect-stats"
+    "collect-stats": "ts-node-esm scripts/collect-stats"
   },
   "dependencies": {
     "astro": "^1.9.1"
