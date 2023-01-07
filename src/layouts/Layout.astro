@@ -1,8 +1,21 @@
 ---
-import { screenshotUrl } from '../util/screenshotAPI'
+import siteConfig from '@/site.config'
+import { screenshotUrl } from '@/util/screenshotAPI'
 
-const title = 'Hyperdrive Speedometer 🚀'
-const description = 'Benchmarking the performance of Astro sites over time.'
+const {
+  title,
+  description,
+  author,
+  authorURL,
+  sourceCodeProvider,
+  repositoryURL,
+  license,
+  licenseURL,
+  originalRepository,
+  originalRepositoryURL,
+  originalAuthor,
+  originalAuthorURL,
+} = siteConfig
 const canonical = new URL(Astro.url.pathname, Astro.site).href
 const ogImageSrc = screenshotUrl(canonical)
 const ogImageAlt = `Screenshot of "${title}"`
@@ -16,6 +29,7 @@ const ogImageAlt = `Screenshot of "${title}"`
     <title>{title}</title>
     <link rel="canonical" href={canonical} />
     <meta name="description" content={description} />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="stylesheet" href="/style.css" />
 
     <!-- Facebook Meta Tags -->
@@ -44,13 +58,13 @@ const ogImageAlt = `Screenshot of "${title}"`
     <h1>{title}</h1>
     <p>{description}</p>
     <slot />
+    <!-- prettier-ignore -->
     <footer>
-      MIT licensed. Built with <a href="https://astro.build/">Astro</a>. Source
-      code on <a href="https://github.com/delucis/hyperdrive-speedometer">
-        GitHub
-      </a>. Based on <a href="https://github.com/zachleat/speedlify/">
-        Speedlify
-      </a> by <a href="https://www.zachleat.com/">@zachleat</a>.
+      Built by <a href={authorURL}>{author}</a>.
+      Released under <a href={licenseURL}>{license} License</a>.
+      Source code on <a href={repositoryURL}>{sourceCodeProvider}</a>.
+      Based on <a href={originalRepositoryURL}>{originalRepository}</a>
+      by <a href={originalAuthorURL}>@{originalAuthor}</a>.
     </footer>
   </body>
 </html>
