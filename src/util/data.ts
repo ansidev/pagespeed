@@ -1,57 +1,57 @@
 export interface TestData {
-  timestamp: number;
-  error?;
-  url: string;
-  requestedUrl?: string;
+  timestamp: number
+  error?
+  url: string
+  requestedUrl?: string
   ranks: {
-    hundos: number;
-    performance: number;
-    accessibility: number;
-    cumulative: number;
-  };
+    hundos: number
+    performance: number
+    accessibility: number
+    cumulative: number
+  }
   lighthouse: {
-    version: string;
-    performance: number;
-    accessibility: number;
-    bestPractices: number;
-    seo: number;
-    total: number;
-    type?: string;
-  };
-  firstContentfulPaint: number;
-  firstMeaningfulPaint: number;
-  speedIndex: number;
-  largestContentfulPaint: number;
-  totalBlockingTime: number;
-  cumulativeLayoutShift: number;
-  timeToInteractive: number;
-  maxPotentialFirstInputDelay: number;
-  timeToFirstByte: number;
+    version: string
+    performance: number
+    accessibility: number
+    bestPractices: number
+    seo: number
+    total: number
+    type?: string
+  }
+  firstContentfulPaint: number
+  firstMeaningfulPaint: number
+  speedIndex: number
+  largestContentfulPaint: number
+  totalBlockingTime: number
+  cumulativeLayoutShift: number
+  timeToInteractive: number
+  maxPotentialFirstInputDelay: number
+  timeToFirstByte: number
   weight: {
-    summary: string;
-    total: number;
-    image: number;
-    imageCount: number;
-    script: number;
-    scriptCount: number;
-    document: number;
-    font: number;
-    fontCount: number;
-    stylesheet: number;
-    stylesheetCount: number;
-    thirdParty: number;
-    thirdPartyCount: number;
-  };
+    summary: string
+    total: number
+    image: number
+    imageCount: number
+    script: number
+    scriptCount: number
+    document: number
+    font: number
+    fontCount: number
+    stylesheet: number
+    stylesheetCount: number
+    thirdParty: number
+    thirdPartyCount: number
+  }
   run: {
-    number: number;
-    total: number;
-  };
+    number: number
+    total: number
+  }
   axe: {
-    passes: number;
-    violations: number;
-    error?: boolean;
-  };
-};
+    passes: number
+    violations: number
+    error?: boolean
+  }
+}
 
 /**
  * Group JSON data for each site.
@@ -59,15 +59,15 @@ export interface TestData {
  * @returns Array of objects, one for each site.
  */
 function groupSites(globMap: {
-  [path: string]: TestData;
+  [path: string]: TestData
 }): { [date: string]: TestData }[] {
-  const results: { [siteHash: string]: { [date: string]: TestData } } = {};
+  const results: { [siteHash: string]: { [date: string]: TestData } } = {}
   for (const [path, content] of Object.entries(globMap)) {
-    const [_dots, _data, _results, siteHash, filename] = path.split('/');
-    if (!results[siteHash]) results[siteHash] = {};
-    results[siteHash][filename.replace(/(^date-|\.json$)/g, '')] = content;
+    const [_dots, _data, _results, siteHash, filename] = path.split('/')
+    if (!results[siteHash]) results[siteHash] = {}
+    results[siteHash][filename.replace(/(^date-|\.json$)/g, '')] = content
   }
-  return Object.values(results);
+  return Object.values(results)
 }
 
 /**
@@ -79,26 +79,26 @@ function sortCumulativeScore(
   arr: { [date: string]: TestData }[]
 ): { [date: string]: TestData }[] {
   return arr.sort((a, b) => {
-    let newestKeyA = Object.keys(a).sort().pop();
-    let newestKeyB = Object.keys(b).sort().pop();
+    const newestKeyA = Object.keys(a).sort().pop()
+    const newestKeyB = Object.keys(b).sort().pop()
 
     // Lighthouse error
     // e.g. { url: 'https://mangoweb.net/', error: 'Unknown error.' }
     if (b[newestKeyB].error && a[newestKeyA].error) {
-      return 0;
+      return 0
     } else if (b[newestKeyB].error) {
-      return -1;
+      return -1
     } else if (a[newestKeyA].error) {
-      return 1;
+      return 1
     }
 
     // lower is better
-    return a[newestKeyA].ranks.cumulative - b[newestKeyB].ranks.cumulative;
-  });
+    return a[newestKeyA].ranks.cumulative - b[newestKeyB].ranks.cumulative
+  })
 }
 
 /** Get all results data, grouped and sorted. */
 export const loadResults = async () =>
   sortCumulativeScore(
-    groupSites(await import.meta.globEager('../data/results/**/*.json'))
-  );
+    groupSites(await import.meta.glob('../data/results/**/*.json', { eager: true }))
+  )

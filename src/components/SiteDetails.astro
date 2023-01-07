@@ -1,18 +1,18 @@
 ---
-import type { TestData } from "../util/data";
-import LighthouseResults from "./LighthouseResults.astro";
-import WeightResults from "./WeightResults.astro";
-import WebVitalsResults from "./WebVitalsResults.astro";
+import type { TestData } from '../util/data'
+import LighthouseResults from './LighthouseResults.astro'
+import WebVitalsResults from './WebVitalsResults.astro'
+import WeightResults from './WeightResults.astro'
 
 export interface Props {
-  site: { [date: string]: TestData };
-  urlHash: string;
+  site: { [date: string]: TestData }
+  urlHash: string
 }
 
-const { site, urlHash } = Astro.props as Props;
+const { site, urlHash } = Astro.props as Props
 const entries = Object.values(site)
   .sort((a, b) => b.timestamp - a.timestamp)
-  .slice(0, 10);
+  .slice(0, 10)
 ---
 
 <tr class="leaderboard-list-entry-details">
@@ -27,7 +27,7 @@ const entries = Object.values(site)
 </tr>
 
 <script>
-  import './SiteDetails.ts';
+  import './SiteDetails.ts'
 </script>
 
 <style is:global>
@@ -52,14 +52,14 @@ const entries = Object.values(site)
     stroke: rgba(255, 255, 255, 0.2);
   }
 
-  a[href^="#details-"] {
+  a[href^='#details-'] {
     white-space: nowrap;
     display: inline-block;
     text-decoration: none;
     background-color: #fff2;
     border-radius: 50px;
     border: 1px solid #aaa;
-    padding: .5em 1em;
+    padding: 0.5em 1em;
     text-align: center;
     line-height: normal;
   }
@@ -98,13 +98,13 @@ const entries = Object.values(site)
 
   .leaderboard-expand-icon {
     display: inline-block;
-    transition: .3s all;
+    transition: 0.3s all;
     transform-origin: center;
     margin-right: 4px;
   }
 
   .leaderboard-expand-icon::before {
-    content: "";
+    content: '';
     display: inline-block;
     width: 0;
     height: 0;
@@ -178,7 +178,7 @@ const entries = Object.values(site)
     }
   }
 
-  [data-numeric-value="0"] .count {
+  [data-numeric-value='0'] .count {
     display: none;
   }
 
@@ -191,16 +191,15 @@ const entries = Object.values(site)
 
   .results th,
   .results td {
-    padding: .25em;
+    padding: 0.25em;
     font-weight: normal;
   }
 
   @media (min-width: 25em) {
-
     .results th,
     .results td {
-      padding-left: .5em;
-      padding-right: .5em;
+      padding-left: 0.5em;
+      padding-right: 0.5em;
     }
   }
 
@@ -215,7 +214,6 @@ const entries = Object.values(site)
   }
 
   @media (max-width: 87.4375em) {
-
     .results th:last-child {
       border-right: none;
     }
@@ -237,7 +235,7 @@ const entries = Object.values(site)
     width: 1ch;
   }
 
-  .results-bool+td {
+  .results-bool + td {
     padding-left: 0;
   }
 
@@ -251,7 +249,6 @@ const entries = Object.values(site)
   }
 
   @media (min-width: 31.25em) {
-
     .leaderboard .results th,
     .leaderboard .results td {
       font-size: 0.875rem;
@@ -259,10 +256,9 @@ const entries = Object.values(site)
   }
 
   @media (min-width: 50em) {
-
     .leaderboard .results th,
     .leaderboard .results td {
-      font-size: .9375rem;
+      font-size: 0.9375rem;
     }
   }
 
